@@ -62,7 +62,21 @@
 		var addDashes = dashes.map(function(dash){
            return "_";
 		});
+		// currentWordText = first + [e,r_,_,] + lastLetter
 		wordContainer.innerHTML = currentWord[0]+ addDashes.join(" ")+currentWord[currentWord.length-1];
+
+	}
+
+	document.getElementById('letter').onkeyup = function(){
+		 var letter = document.getElementById("letter").value;
+         console.log(letter);
+        var wordContainer = document.getElementById("word");
+        var regex  = new  RegEx(letter, "g");
+        
+        var newWordDisplay = currentWord.substring(1,currentWord.length-2).join("").replace(regex, "_");
+        // currentWordText = first + [e,r_,_,] + lastLetter
+        wordContainer.innerHTML = currentWord[0]+ newWordDisplay+currentWord[currentWord.length-1];
+  
 
 	}
 })();
