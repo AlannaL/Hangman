@@ -1,0 +1,40 @@
+//Start of drawing component
+body{
+	height: 500px;
+	width: 500px;
+}
+.drawing{
+	position: absolute;
+	top:10%;
+	right:10%;
+	height: 500px;
+	width: 500px;
+}
+
+#bar{
+ width: 50%;
+ height:100%;
+ //float:right;
+ border-right: 4px solid black;
+ border-top: 4px solid black;
+}
+#bar:before{
+	content:'';
+	display:inline-block;
+	width:10%;
+    height: 15%;
+	border-left:4px solid black;
+}
+//Start of head element
+div.drawing:first-of-type{
+      width: 20%;
+    height: 20%;
+    border: 4px solid black;
+    position: absolute;
+    top: 15%;
+    left: 39%;
+    border-radius: 50%;
+}
+
+//end of head component
+//end of drawing component
