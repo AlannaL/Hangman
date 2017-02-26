@@ -9,6 +9,7 @@
  	       if(response){
  	       	  listOfWords = response;
  	          currentWord = listOfWords[0].split("");	
+ 	          displayCurrentWord();
  	       }
  	       else{
  	       	  alert("Please come back later!");
@@ -16,7 +17,7 @@
  	                  
  	       console.log("promise end",response);
  		}).catch(function(error){
- 			console.err("There was an error in retrieving random words");
+ 			console.log("There was an error in retrieving random words");
  		});
        
  	};
@@ -57,7 +58,11 @@
 
 	function displayCurrentWord(){
 		var wordContainer = document.getElementById("word");
-		wordContainer.innerHTML = currentWord;
+		var dashes = Array.apply(null, { length: currentWord.length-2 }) ;
+		var addDashes = dashes.map(function(dash){
+           return "_";
+		});
+		wordContainer.innerHTML = currentWord[0]+ addDashes.join(" ")+currentWord[currentWord.length-1];
 
 	}
 })();
