@@ -5,15 +5,15 @@
  	    displayWord = [],
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
 
- 	window.onload = function(e){
- 	    getRandomWords().then(function(response){
- 	       if(response){
+ 	window.onload = function(e){  //when page finishes loading
+ 	    getRandomWords().then(function(response){ 
+ 	       if(response){                          //response is returned from api
  	       	  listOfWords = response;
- 	          currentWord = listOfWords[0].split("");	
+ 	          currentWord = listOfWords[0].split(""); // current word is array of letters
  	          displayCurrentWord();
  	       }
  	       else{
- 	       	  alert("Please come back later!");
+ 	       	  alert("Please come back later!");  //if no response from api
  	       }
  	                  
  	       console.log("promise end",response);
@@ -32,7 +32,7 @@
 
 			 var xmlhttp = new XMLHttpRequest();
 
-		    xmlhttp.onreadystatechange = function() {
+		    xmlhttp.onreadystatechange = function() {   // ths makes a call to the api
 		        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
 		           if (xmlhttp.status == 200) {
 		              listOfWords = JSON.parse(xmlhttp.responseText).map(function(word){return word.word});
@@ -72,6 +72,9 @@
 
 	}
 
+    var guessed = document.getElementById("guessed-letters");
+    var guessedString = "";   //to display letters already guessed
+
 	document.getElementById('letter').onkeyup = function(){
 		 var letter = document.getElementById("letter").value;
          console.log(letter);
@@ -83,8 +86,10 @@
            		currentWord[index] = "-1"; 
            }
 		});
-       document.getElementById('letter').value ="";
-        wordContainer.innerHTML = displayWord.join(" ");
+       document.getElementById('letter').value ="";     //reset input value
+        wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
+        guessedString = guessedString.concat(letter);
+        guessed.innerHTML = guessedString;      //display the guessed letter
   
 
 	}
