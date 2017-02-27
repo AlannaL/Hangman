@@ -2,6 +2,7 @@
 (function(){
  	var listOfWords = [],
  	    currentWord = [],
+ 	    displayWord = [],
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
 
  	window.onload = function(e){
@@ -17,7 +18,7 @@
  	                  
  	       console.log("promise end",response);
  		}).catch(function(error){
- 			console.log("There was an error in retrieving random words");
+ 			console.log("There was an error in retrieving random words",error);
  		});
        
  	};
@@ -62,7 +63,29 @@
 		var addDashes = dashes.map(function(dash){
            return "_";
 		});
-		wordContainer.innerHTML = currentWord[0]+ addDashes.join(" ")+currentWord[currentWord.length-1];
+         displayWord.push(currentWord[0]);
+         displayWord = displayWord.concat(addDashes);
+         displayWord.push(currentWord[currentWord.length-1]);
+
+		// currentWordText = first + [e,r_,_,] + lastLetter
+		wordContainer.innerHTML = displayWord.join(" ");
+
+	}
+
+	document.getElementById('letter').onkeyup = function(){
+		 var letter = document.getElementById("letter").value;
+         console.log(letter);
+	    var wordContainer = document.getElementById("word");
+        currentWord.forEach(function(character,index){
+           if(index !==0 && index !== (currentWord.length-1) && 
+           	  character.toLowerCase() === letter.toLowerCase()){
+           		displayWord[index] = letter;
+           		currentWord[index] = "-1"; 
+           }
+		});
+       document.getElementById('letter').value ="";
+        wordContainer.innerHTML = displayWord.join(" ");
+  
 
 	}
 })();
