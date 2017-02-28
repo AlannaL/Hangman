@@ -3,6 +3,7 @@
  	var listOfWords = [],
  	    currentWord = [],
  	    displayWord = [],
+ 	    count = 1,
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5";
 
  	window.onload = function(e){  //when page finishes loading
@@ -80,13 +81,21 @@
 		 var letter = document.getElementById("letter").value;
          console.log(letter);
 	    var wordContainer = document.getElementById("word");
+	    var found = false;
         currentWord.forEach(function(character,index){
            if(index !==0 && index !== (currentWord.length-1) && 
            	  character.toLowerCase() === letter.toLowerCase()){
-           		displayWord[index] = letter;
-           		currentWord[index] = "-1"; 
+           		displayWord[index] = letter;//add guessed letter in word to display
+           		currentWord[index] = "-1";// remove guessed letter from the initial word to guess
+           		found = true;
            }
+           
 		});
+
+ 		if(count <=7 && arrLetters.indexOf(letter) < 0 && !found){//if there are still limbs to display and the letter hasn't already been guessed
+           	 displayLimb(count);
+           	 count++;
+        } 	
        document.getElementById('letter').value ="";     //reset input value
        var message = document.getElementById('message-area'); // reset message area
         wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
@@ -100,7 +109,10 @@
           message.innerHTML = "";
         }
 
-  
+      
+	}
 
+	function displayLimb(number){
+		document.getElementById("l"+number).className = "show";
 	}
 })();
