@@ -31,7 +31,12 @@ body{
     height: 15%;
 	border-left:4px solid black;
 }
-
+.show{
+	opacity: 1 !important;
+}
+.hide{
+	opacity: 0 !important;	/*important is needed so that it overrides the initial oppacity value*/
+}
 #l1{
       width: 20%;
     height: 20%;
@@ -110,6 +115,7 @@ opacity: 0;
   <div id="guessed-letters"></div>
   <div id="word"></div>
   <input placeholder="Type letter" value="" type="text" id="letter" maxlength ="1"/>
+  <div id="message-area"></div>
 </div>
 <div class="drawing">
 	<div id ='l1'></div>
