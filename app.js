@@ -112,7 +112,7 @@
 	        if (arrLetters.indexOf(letter) != -1){        //if letter has already been guessed
 	            message.innerHTML = "That letter has already been guessed";
 	        } else {                                     // if a new letter
-	          guessedString = guessedString.concat(letter);
+	          guessedString = guessedString.concat(letter + " ");
 	          guessed.innerHTML = guessedString;      //display the guessed letter
 	          arrLetters.push(letter);
 	          console.log(arrLetters);
