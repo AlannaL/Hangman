@@ -74,6 +74,7 @@
 
     var guessed = document.getElementById("guessed-letters");
     var guessedString = "";   //to display letters already guessed
+    var arrLetters = []; //an array to hold the letters already guessed
 
 	document.getElementById('letter').onkeyup = function(){
 		 var letter = document.getElementById("letter").value;
@@ -87,9 +88,18 @@
            }
 		});
        document.getElementById('letter').value ="";     //reset input value
+       var message = document.getElementById('message-area'); // reset message area
         wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
-        guessedString = guessedString.concat(letter);
-        guessed.innerHTML = guessedString;      //display the guessed letter
+        if (arrLetters.indexOf(letter) != -1){        //if letter has already been guessed
+            message.innerHTML = "That letter has already been guessed";
+        } else {                                     // if a new letter
+          guessedString = guessedString.concat(letter);
+          guessed.innerHTML = guessedString;      //display the guessed letter
+          arrLetters.push(letter);
+          console.log(arrLetters);
+          message.innerHTML = "";
+        }
+
   
 
 	}
