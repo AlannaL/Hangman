@@ -7,6 +7,7 @@
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
  	    count = 1,
+ 	    correct = 0,
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
  	    message = document.getElementById('message-area'),
@@ -75,13 +76,13 @@
          displayWord.push(currentWord[0]);
          displayWord = displayWord.concat(addDashes);
          displayWord.push(currentWord[currentWord.length-1]);
-
+        console.log(currentWord);
 		wordContainer.innerHTML = displayWord.join(" ");
 
 	}
 
   
-
+    //For each letter entered
 	document.getElementById('letter').onkeyup = function(){
 		 var letter = document.getElementById("letter").value;
          console.log(letter);
@@ -89,25 +90,43 @@
 	    var found = false;
         currentWord.forEach(function(character,index){
            if(index !==0 && index !== (currentWord.length-1) && 
-           	  character.toLowerCase() === letter.toLowerCase()){
+           	  character.toLowerCase() === letter.toLowerCase()){  //for correctly guessed letter
            		displayWord[index] = letter;//add guessed letter in word to display
            		currentWord[index] = "-1";// remove guessed letter from the initial word to guess
-           		found = true;
+           		correct++;  //number of correct letters guessed
+           		console.log(correct);
+           		found = true; //letter was correctly guessed
+           		console.log(currentWord);
+           		message.innerHTML = "Correct letter";
+           		if (correct == currentWord.length-2){ //the win condition
+				  console.log("Won");
+				  message.innerHTML = "You won!";
+				  //resetWord();
+				}
+
            }
            
 		});
 
+
+
+
+
  		 	
        document.getElementById('letter').value ="";     //reset input value
        
-       if(count < 8 && arrLetters.indexOf(letter) < 0 && !found){//if there are still limbs to display and the letter hasn't already been guessed
+       //for not correct guess
+       if(count < 8 && arrLetters.indexOf(letter) < 0 && !found){//if there are still limbs to display and the letter hasn't already been guessed and is false
            	 displayLimb(count);
            	 count++;
         
         }
         
+        //if not end of game for everytime a key is pressed
         if(count < 8){
         	 wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
+
+
 
 	        if (arrLetters.indexOf(letter) != -1){        //if letter has already been guessed
 	            message.innerHTML = "That letter has already been guessed";
@@ -119,7 +138,7 @@
 	          message.innerHTML = "";
 	        }	
         }
-        else{// if the user has already missed 7 times 
+        else{// if the user has already missed 7 times  -- start a new game
         	resetWord();//reset all needed variables, labels
         }
      
