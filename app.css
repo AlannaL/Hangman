@@ -3,21 +3,6 @@ body{
 	height: 500px;
 	width: 500px;
 }
-.score{
-	display: flex;
-	position: absolute;
-	top: 10px;
-	left: 50%;
-	width: 60%;
-}
-.score div:nth-of-type(2){
-	display: flex;
-	justify-content: space-between;
-	width: 60%;
-}
-#missed-words{
-    word-wrap: break-word;
-}
 .drawing{
 	position: absolute;
 	top:10%;
