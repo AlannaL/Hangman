@@ -11,6 +11,7 @@
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
  	    message = document.getElementById('message-area'),
+ 	    winMessage = document.getElementById('win-message'),
  	    wordContainer = document.getElementById("word"),
  	    guessedNum = 0; //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
@@ -98,11 +99,10 @@
            		found = true; //letter was correctly guessed
            	    console.log(currentWord); //displays solution for testing purposes
            		console.log("Number of correct letters guessed:" + correct);
-           		message.innerHTML = "Correct letter";
            		
            		if (correct == currentWord.length-2){ //the win condition, number of correct letters = # of dashes
 				  console.log("Won");
-				  message.innerHTML = "You won!";
+				  winMessage.innerHTML = "You won!";
 				  guessedNum++;
 				  console.log("Number of guessed words:" + guessedNum);
 				  resetWord();
@@ -163,6 +163,7 @@
 		  // display previous word to guess in full 
 		   displayWord =  listOfWords[indexWordToGuess].split(""); 
 		   wordContainer.innerHTML = displayWord.join(" "); 
+
 		  	//wait two seconds before moving to the next word in the list
     	   setTimeout(function(){ 
 	    	   	reinitializeValues();
@@ -170,6 +171,7 @@
 			    indexWordToGuess++;	
 			    currentWord = listOfWords[indexWordToGuess].split("");
 	    	   	displayCurrentWord(); 
+	    	   	winMessage.innerHTML = "";
     	   }, 2000);
 		   
 
