@@ -1,17 +1,18 @@
 //IIFE 
 (function(){
- 	var listOfWords = [],
- 	    currentWord = [],
- 	    displayWord = [],
+ 	var listOfWords = [], //words returned from API
+ 	    currentWord = [], //word, array of letters
+ 	    displayWord = [], //word on the screen, X----x
  	    wordsPerGame = 5,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
- 	    count = 1,
- 	    correct = 0,
+ 	    count = 1, //the number of wrong guesses
+ 	    correct = 0, // the number of correctly guessed letters
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
  	    message = document.getElementById('message-area'),
  	    wordContainer = document.getElementById("word"),
+ 	    guessedNum = 0; //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
         arrLetters = []; //an array to hold the letters already guessed;
 
@@ -94,14 +95,18 @@
            		displayWord[index] = letter;//add guessed letter in word to display
            		currentWord[index] = "-1";// remove guessed letter from the initial word to guess
            		correct++;  //number of correct letters guessed
-           		console.log(correct);
            		found = true; //letter was correctly guessed
-           		console.log(currentWord);
+           	    console.log(currentWord); //displays solution for testing purposes
+           		console.log("Number of correct letters guessed:" + correct);
            		message.innerHTML = "Correct letter";
-           		if (correct == currentWord.length-2){ //the win condition
+           		
+           		if (correct == currentWord.length-2){ //the win condition, number of correct letters = # of dashes
 				  console.log("Won");
 				  message.innerHTML = "You won!";
-				  //resetWord();
+				  guessedNum++;
+				  console.log("Number of guessed words:" + guessedNum);
+				  resetWord();
+				  correct=0; //reset
 				}
 
            }
