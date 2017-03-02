@@ -1,16 +1,19 @@
 //IIFE 
 (function(){
  	var listOfWords = [],
+ 	    countMissedWords = 0,
+ 	    missedWords = [],
  	    currentWord = [],
  	    displayWord = [],
  	    wordsPerGame = 5,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
  	    count = 1,
- 		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
- 	    guessed = document.getElementById("guessed-letters"),
+ 		apiKey='a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5',
+ 	    guessed = document.getElementById('guessed-letters'),
  	    message = document.getElementById('message-area'),
  	    wordContainer = document.getElementById("word"),
+ 	    wordInput = document.getElementById('letter'),
         guessedString = "",   //to display letters already guessed
         arrLetters = []; //an array to hold the letters already guessed;
 
@@ -82,8 +85,8 @@
 
   
 
-	document.getElementById('letter').onkeyup = function(){
-		 var letter = document.getElementById("letter").value;
+	wordInput.onkeyup = function(){
+		 var letter = wordInput.value;
          console.log(letter);
 	   
 	    var found = false;
@@ -119,12 +122,19 @@
 	          message.innerHTML = "";
 	        }	
         }
-        else{// if the user has already missed 7 times 
+        else if(!wordInput.readOnly){// if the user has already missed 7 times 
+        	//counting the missed words and adding their value in an array to display them
+        	countMissedWords++;
+        	missedWords.push(listOfWords[indexWordToGuess]);
+        	updateDisplayMissedWords();
         	resetWord();//reset all needed variables, labels
         }
      
 	}
-
+	function updateDisplayMissedWords(){
+		document.getElementById("missed-number").innerHTML = countMissedWords;
+		document.getElementById("missed-words").innerHTML = missedWords.join(",");
+	}
 	function displayLimb(number){
 		document.getElementById("l"+number).className = "show";
 	}
@@ -139,6 +149,8 @@
 		  // display previous word to guess in full 
 		   displayWord =  listOfWords[indexWordToGuess].split(""); 
 		   wordContainer.innerHTML = displayWord.join(" "); 
+		   //deactivate letter input while displaying the full word before going to the next one
+		   wordInput.readOnly = true;
 		  	//wait two seconds before moving to the next word in the list
     	   setTimeout(function(){ 
 	    	   	reinitializeValues();
@@ -146,6 +158,8 @@
 			    indexWordToGuess++;	
 			    currentWord = listOfWords[indexWordToGuess].split("");
 	    	   	displayCurrentWord(); 
+	    	   	//activate the letter input again
+	    	    wordInput.readOnly = false;
     	   }, 2000);
 		   
 
