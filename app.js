@@ -133,7 +133,7 @@
 	}
 	function updateDisplayMissedWords(){
 		document.getElementById("missed-number").innerHTML = countMissedWords;
-		document.getElementById("missed-words").innerHTML = missedWords.join(",");
+		document.getElementById("missed-words").innerHTML = missedWords.join(", ");
 	}
 	function displayLimb(number){
 		document.getElementById("l"+number).className = "show";
