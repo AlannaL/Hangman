@@ -7,31 +7,21 @@
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
  	    count = 1, //the number of wrong guesses
+ 	    countMissedWords = 0,
+ - 	    missedWords = [],
  	    correct = 0, // the number of correctly guessed letters
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
  	    message = document.getElementById('message-area'),
  	    winMessage = document.getElementById('win-message'),
  	    wordContainer = document.getElementById("word"),
+ 	     wordInput = document.getElementById('letter'),
  	    guessedNum = 0; //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
         arrLetters = []; //an array to hold the letters already guessed;
 
  	window.onload = function(e){  //when page finishes loading
- 	    getRandomWords().then(function(response){ 
- 	       if(response){                          //response is returned from api
- 	       	  listOfWords = response;
- 	          currentWord = listOfWords[0].split(""); // current word is array of letters
- 	          displayCurrentWord();
- 	       }
- 	       else{
- 	       	  alert("Please come back later!");  //if no response from api
- 	       }
- 	                  
- 	     //  console.log("promise end",response);
- 		}).catch(function(error){
- 			console.log("There was an error in retrieving random words",error);
- 		});
+ 	   setRandomWords();
        
  	};
 
@@ -64,9 +54,23 @@
 
 		    xmlhttp.open("GET", "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=noun&excludePartOfSpeech=noun-plural&minCorpusCount=10000&maxCorpusCount=20000&minDictionaryCount=0&maxDictionaryCount=-1&minLength=5&maxLength=7&limit="+wordsPerGame+"&api_key="+apiKey, true);
 		    xmlhttp.send();	
-		});
-
-				
+		});		
+	}
+	function setRandomWords(){
+		 getRandomWords().then(function(response){ 
+	 	       if(response){                          //response is returned from api
+	 	       	  listOfWords = response;
+	 	          currentWord = listOfWords[0].split(""); // current word is array of letters
+	 	          displayCurrentWord();
+	 	       }
+	 	       else{
+	 	       	  alert("Please come back later!");  //if no response from api
+	 	       }
+	 	                  
+	 	     //  console.log("promise end",response);
+	 		}).catch(function(error){
+	 			console.log("There was an error in retrieving random words",error);
+	 		});
 	}
 
 	function displayCurrentWord(){
@@ -85,8 +89,8 @@
 
   
     //For each letter entered
-	document.getElementById('letter').onkeyup = function(){
-		 var letter = document.getElementById("letter").value;
+	wordInput.onkeyup = function(){
+		 var letter = wordInput.value;
          console.log(letter);
 	   
 	    var found = false;
@@ -143,8 +147,11 @@
 	          message.innerHTML = "";
 	        }	
         }
-        else{// if the user has already missed 7 times  -- start a new game
-        	resetWord();//reset all needed variables, labels
+        else if(!wordInput.readOnly){// if the user has already missed 7 times 
+ -        	//counting the missed words and adding their value in an array to display them
+ -        	countMissedWords++;
+ -        	missedWords.push(listOfWords[indexWordToGuess]);
+ -        	updateDisplayMissedWords();
         }
      
 	}
@@ -163,6 +170,8 @@
 		  // display previous word to guess in full 
 		   displayWord =  listOfWords[indexWordToGuess].split(""); 
 		   wordContainer.innerHTML = displayWord.join(" "); 
+          //deactivate letter input while displaying the full word before going to the next one
+  	       wordInput.readOnly = true;
 
 		  	//wait two seconds before moving to the next word in the list
     	   setTimeout(function(){ 
@@ -172,25 +181,46 @@
 			    currentWord = listOfWords[indexWordToGuess].split("");
 	    	   	displayCurrentWord(); 
 	    	   	winMessage.innerHTML = "";
+	    	    //activate the letter input again
+	    	   	wordInput.readOnly = false;
     	   }, 2000);
 		   
 
 		}
 		else{
-			reinitializeValues()
-			alert("Game over !");
-			//TO-DO implement code for display end game dialog for starting a new game again	
+			
+			//display that game has ended and start a new game if user confirms
+			swal({
+			  title: "Game Over",
+			  text: "You have guessed "+correct +" words and missed "+count+" words. Do you want to start a new game ?",
+			  type: "success",
+			  showCancelButton: true,
+			  closeOnConfirm: false,
+			  showLoaderOnConfirm: true,
+			},
+			function(){
+			  reinitializeValues();
+			  setRandomWords();
+			});
 		}
 	}
+	function updateDisplayMissedWords(){
+ 		document.getElementById("missed-number").innerHTML = countMissedWords;
+ 		document.getElementById("missed-words").innerHTML = missedWords.join(", ");
+ 	}
 	function reinitializeValues(){
 		//hide hangman again
-			    hideLimbs();
-				//resets count of missed letters		
-				count =1;
-				//reset guessed letters display
-				guessedString = "";
-				guessed.innerHTML = guessedString; 
-				message.innerHTML = guessedString;
-				arrLetters = [];
+	    hideLimbs();
+		//resets count of missed letters		
+		count =1;
+		//reset guessed letters display
+		guessedString = "";
+		guessed.innerHTML = guessedString; 
+		message.innerHTML = guessedString;
+		arrLetters = [];
+		//reinitialize correct words
+		correct = 0;
+		guessedNum = 0;
+		winMessage.innerHTML = "";
 	}
 })();

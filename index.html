@@ -4,6 +4,9 @@
 	<title>Hangman Belugas</title>
 	  <!-- <link rel="stylesheet" type="text/css" href="./app.css" />-->
 	   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="./vendor/sweetAlerts/sweetalert.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="./vendor/sweetAlerts/sweetalert.css">
+
     <style>
      
 body{
@@ -17,7 +20,21 @@ body{
 	height: 500px;
 	width: 500px;
 }
-
+.score{
+   display: flex;
+   position: absolute;
+   top: 10px;
+   left: 50%;
+   width: 60%;
+ }
+ .score div:nth-of-type(2){
+   display: flex;
+   justify-content: space-between;
+   width: 60%;
+ }
+ #missed-words{
+     word-wrap: break-word;
+ }
 #bar{
  width: 50%;
  height:100%;
