@@ -1,16 +1,19 @@
 //IIFE 
 (function(){
- 	var listOfWords = [],
- 	    currentWord = [],
- 	    displayWord = [],
+ 	var listOfWords = [], //words returned from API
+ 	    currentWord = [], //word, array of letters
+ 	    displayWord = [], //word on the screen, X----x
  	    wordsPerGame = 5,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
- 	    count = 1,
+ 	    count = 1, //the number of wrong guesses
+ 	    correct = 0, // the number of correctly guessed letters
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
  	    message = document.getElementById('message-area'),
+ 	    winMessage = document.getElementById('win-message'),
  	    wordContainer = document.getElementById("word"),
+ 	    guessedNum = 0; //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
         arrLetters = []; //an array to hold the letters already guessed;
 
@@ -75,13 +78,13 @@
          displayWord.push(currentWord[0]);
          displayWord = displayWord.concat(addDashes);
          displayWord.push(currentWord[currentWord.length-1]);
-
+        console.log(currentWord);
 		wordContainer.innerHTML = displayWord.join(" ");
 
 	}
 
   
-
+    //For each letter entered
 	document.getElementById('letter').onkeyup = function(){
 		 var letter = document.getElementById("letter").value;
          console.log(letter);
@@ -89,25 +92,46 @@
 	    var found = false;
         currentWord.forEach(function(character,index){
            if(index !==0 && index !== (currentWord.length-1) && 
-           	  character.toLowerCase() === letter.toLowerCase()){
+           	  character.toLowerCase() === letter.toLowerCase()){  //for correctly guessed letter
            		displayWord[index] = letter;//add guessed letter in word to display
            		currentWord[index] = "-1";// remove guessed letter from the initial word to guess
-           		found = true;
+           		correct++;  //number of correct letters guessed
+           		found = true; //letter was correctly guessed
+           	    console.log(currentWord); //displays solution for testing purposes
+           		console.log("Number of correct letters guessed:" + correct);
+           		
+           		if (correct == currentWord.length-2){ //the win condition, number of correct letters = # of dashes
+				  console.log("Won");
+				  winMessage.innerHTML = "You won!";
+				  guessedNum++;
+				  console.log("Number of guessed words:" + guessedNum);
+				  resetWord();
+				  correct=0; //reset
+				}
+
            }
            
 		});
 
+
+
+
+
  		 	
        document.getElementById('letter').value ="";     //reset input value
        
-       if(count < 8 && arrLetters.indexOf(letter) < 0 && !found){//if there are still limbs to display and the letter hasn't already been guessed
+       //for not correct guess
+       if(count < 8 && arrLetters.indexOf(letter) < 0 && !found){//if there are still limbs to display and the letter hasn't already been guessed and is false
            	 displayLimb(count);
            	 count++;
         
         }
         
+        //if not end of game for everytime a key is pressed
         if(count < 8){
         	 wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
+
+
 
 	        if (arrLetters.indexOf(letter) != -1){        //if letter has already been guessed
 	            message.innerHTML = "That letter has already been guessed";
@@ -119,7 +143,7 @@
 	          message.innerHTML = "";
 	        }	
         }
-        else{// if the user has already missed 7 times 
+        else{// if the user has already missed 7 times  -- start a new game
         	resetWord();//reset all needed variables, labels
         }
      
@@ -139,6 +163,7 @@
 		  // display previous word to guess in full 
 		   displayWord =  listOfWords[indexWordToGuess].split(""); 
 		   wordContainer.innerHTML = displayWord.join(" "); 
+
 		  	//wait two seconds before moving to the next word in the list
     	   setTimeout(function(){ 
 	    	   	reinitializeValues();
@@ -146,6 +171,7 @@
 			    indexWordToGuess++;	
 			    currentWord = listOfWords[indexWordToGuess].split("");
 	    	   	displayCurrentWord(); 
+	    	   	winMessage.innerHTML = "";
     	   }, 2000);
 		   
 
