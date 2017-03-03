@@ -8,7 +8,7 @@
  	    indexWordToGuess = 0,
  	    count = 1, //the number of wrong guesses
  	    countMissedWords = 0,
- - 	    missedWords = [],
+  	    missedWords = [],
  	    correct = 0, // the number of correctly guessed letters
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
@@ -148,10 +148,11 @@
 	        }	
         }
         else if(!wordInput.readOnly){// if the user has already missed 7 times 
- -        	//counting the missed words and adding their value in an array to display them
- -        	countMissedWords++;
- -        	missedWords.push(listOfWords[indexWordToGuess]);
- -        	updateDisplayMissedWords();
+         	//counting the missed words and adding their value in an array to display them
+         	countMissedWords++;
+         	missedWords.push(listOfWords[indexWordToGuess]);
+         	updateDisplayMissedWords();
+         	resetWord();
         }
      
 	}
@@ -172,7 +173,6 @@
 		   wordContainer.innerHTML = displayWord.join(" "); 
           //deactivate letter input while displaying the full word before going to the next one
   	       wordInput.readOnly = true;
-
 		  	//wait two seconds before moving to the next word in the list
     	   setTimeout(function(){ 
 	    	   	reinitializeValues();
