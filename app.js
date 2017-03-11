@@ -4,7 +4,7 @@
  	    currentWord = [], //word, array of letters
  	    answerWord = [], //holds the word for the solution
  	    displayWord = [], //word on the screen, X----x
- 	    wordsPerGame = 2,//switch words per game to 5 instead of 10
+ 	    wordsPerGame = 5,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
  	    count = 1, //the number of wrong guesses
@@ -20,6 +20,7 @@
  	    guessedNumber = document.getElementById("guessed-number"),
  	    missedWordsDisplay = document.getElementById("missed-words"),
  	    missedNumberDisplay = document.getElementById("missed-number"),
+ 	    newGameButton = document.getElementById("newGame"),
  	    winWords = []; //an array to hold correctly guessed words
  	    guessedNum = 0, //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
@@ -202,11 +203,25 @@
 			  closeOnConfirm: true,
 			  showLoaderOnConfirm: true
 			},
-			function(){
-			  reinitializeNewGame();
-			  setRandomWords();
+			function(isConfirm){
+				if(isConfirm){
+				  startNewGame();	
+				  newGameButton.style ="visibility: hidden";		
+				}
+				else{
+				   newGameButton.style="visibility:visible";	
+				}
+			    
 			});
 		}
+	}
+	newGameButton.onclick = function(e){
+		startNewGame();
+	}
+	function startNewGame(){
+		newGameButton.style ="visibility: hidden";
+		reinitializeNewGame();
+	    setRandomWords();
 	}
 	function reinitializeNewGame(){
 	   guessedNum = 0;
