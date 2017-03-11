@@ -14,14 +14,14 @@
  		apiKey="a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
  	    guessed = document.getElementById("guessed-letters"),
  	    message = document.getElementById('message-area'),
- 	    winMessage = document.getElementById('win-message'),
  	    wordContainer = document.getElementById("word"),
- 	     wordInput = document.getElementById('letter'),
+ 	    wordInput = document.getElementById('letter'),
  	    guessedWords = document.getElementById("guessed-words"),
  	    guessedNumber = document.getElementById("guessed-number"),
  	    winWords = []; //an array to hold correctly guessed words
  	    guessedNum = 0, //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
+        LIMBS_COUNT = 8, // how many letters the user can guees wrong
         arrLetters = []; //an array to hold the letters already guessed;
 
  	window.onload = function(e){  //when page finishes loading
@@ -63,6 +63,7 @@
 		 getRandomWords().then(function(response){ 
 	 	       if(response){                          //response is returned from api
 	 	       	  listOfWords = response;
+	 	       	  answerWord = listOfWords[0];
 	 	          currentWord = listOfWords[0].split(""); // current word is array of letters
 	 	          displayCurrentWord();
 	 	       }
@@ -109,7 +110,7 @@
            		
            		if (correct == currentWord.length-2){ //the win condition, number of correct letters = # of dashes
 				  console.log("Won");
-				  winMessage.innerHTML = "You won!";
+				  message.innerHTML = "You won!";
 				  guessedNum++;
 				  winWords.push(answerWord);
 				  console.log("Number of guessed words:" + guessedNum);
@@ -124,7 +125,7 @@
 		});
 
  		 	
-       document.getElementById('letter').value ="";     //reset input value
+       wordInput.value ="";     //reset input value
        
        //for not correct guess
        if(count < 8 && arrLetters.indexOf(letter) < 0 && !found){//if there are still limbs to display and the letter hasn't already been guessed and is false
@@ -134,7 +135,7 @@
         }
         
         //if not end of game for everytime a key is pressed
-        if(count < 8){
+        if(count < LIMBS_COUNT){
         	 wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
 
 	        if (arrLetters.indexOf(letter) != -1){        //if letter has already been guessed
@@ -175,13 +176,13 @@
   	       wordInput.readOnly = true;
 		  	//wait two seconds before moving to the next word in the list
     	   setTimeout(function(){ 
-	    	   	reinitializeValues();
+	    	  	reinitializeValues();
 				//move to the next word to guess in the list	
 			    indexWordToGuess++;	
 			    currentWord = listOfWords[indexWordToGuess].split("");
 	    	   	answerWord = listOfWords[indexWordToGuess];
 	    	   	displayCurrentWord(); 
-	    	   	winMessage.innerHTML = "";
+	    	   	message.innerHTML = "";
 	    	    //activate the letter input again
 	    	   	wordInput.readOnly = false;
     	   }, 2000);
@@ -193,15 +194,21 @@
 			//display that game has ended and start a new game if user confirms
 			swal({
 			  title: "Game Over",
-			  text: "You have guessed "+correct +" words and missed "+count+" words. Do you want to start a new game ?",
+			  text: "You have guessed "+guessedNum +" words and missed "+count+" words. Do you want to start a new game ?",
 			  type: "success",
 			  showCancelButton: true,
 			  closeOnConfirm: false,
 			  showLoaderOnConfirm: true,
 			},
 			function(){
+			 
+	   
+			  //reinitialize correct words
+			
+			  guessedNum = 0;
+			 
 			  reinitializeValues();
-			  setRandomWords();
+			  //setRandomWords();
 			});
 		}
 	}
@@ -211,17 +218,16 @@
  	}
 	function reinitializeValues(){
 		//hide hangman again
-	    hideLimbs();
-		//resets count of missed letters		
-		count =1;
-		//reset guessed letters display
-		guessedString = "";
-		guessed.innerHTML = guessedString; 
-		message.innerHTML = guessedString;
+	     hideLimbs();
+		//reset count of guessed letters
+		  correct = 0;
+		//resets count of missed letters	
+		 count =1;
+		 //reset guesses and message display 
+		 guessedString = "";
+		 guessed.innerHTML = ""; 
+		 message.innerHTML = ""; 
 		arrLetters = [];
-		//reinitialize correct words
-		correct = 0;
-		guessedNum = 0;
-		winMessage.innerHTML = "";
+		
 	}
 })();
