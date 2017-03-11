@@ -4,7 +4,7 @@
  	    currentWord = [], //word, array of letters
  	    answerWord = [], //holds the word for the solution
  	    displayWord = [], //word on the screen, X----x
- 	    wordsPerGame = 5,//switch words per game to 5 instead of 10
+ 	    wordsPerGame = 2,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
  	    indexWordToGuess = 0,
  	    count = 1, //the number of wrong guesses
@@ -18,6 +18,8 @@
  	    wordInput = document.getElementById('letter'),
  	    guessedWords = document.getElementById("guessed-words"),
  	    guessedNumber = document.getElementById("guessed-number"),
+ 	    missedWordsDisplay = document.getElementById("missed-words"),
+ 	    missedNumberDisplay = document.getElementById("missed-number"),
  	    winWords = []; //an array to hold correctly guessed words
  	    guessedNum = 0, //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
@@ -194,27 +196,33 @@
 			//display that game has ended and start a new game if user confirms
 			swal({
 			  title: "Game Over",
-			  text: "You have guessed "+guessedNum +" words and missed "+count+" words. Do you want to start a new game ?",
+			  text: "You have guessed "+guessedNum +" words and missed "+countMissedWords+" words. Do you want to start a new game ?",
 			  type: "success",
 			  showCancelButton: true,
-			  closeOnConfirm: false,
-			  showLoaderOnConfirm: true,
+			  closeOnConfirm: true,
+			  showLoaderOnConfirm: true
 			},
 			function(){
-			 
-	   
-			  //reinitialize correct words
-			
-			  guessedNum = 0;
-			 
-			  reinitializeValues();
-			  //setRandomWords();
+			  reinitializeNewGame();
+			  setRandomWords();
 			});
 		}
 	}
+	function reinitializeNewGame(){
+	   guessedNum = 0;
+	   countMissedWords = 0; 
+ 	   winWords = []; 
+ 	   missedWords = [];
+	   missedNumberDisplay.innerHTML = "";
+       missedWordsDisplay.innerHTML = "";
+       guessedNumber.innerHTML = "";
+       guessedWords.innerHTML = "";
+       indexWordToGuess = 0;
+	   reinitializeValues();
+	}
 	function updateDisplayMissedWords(){
- 		document.getElementById("missed-number").innerHTML = countMissedWords;
- 		document.getElementById("missed-words").innerHTML = missedWords.join(", ");
+ 		missedNumberDisplay.innerHTML = countMissedWords;
+ 		missedWordsDisplay.innerHTML = missedWords.join(", ");
  	}
 	function reinitializeValues(){
 		//hide hangman again
