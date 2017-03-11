@@ -123,12 +123,15 @@ background: black;
 opacity: 0;
 }
 
-
+#newGame{
+  visibility: hidden;
+}
     </style>
 
 </head>
 <body>
 <div class="main">
+  <button id="newGame"> Start New Game </button>
   <div id="guessed-letters"></div>
   <div id="word"></div>
   <input placeholder="Type letter" value="" type="text" id="letter" maxlength ="1"/>
