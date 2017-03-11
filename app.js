@@ -2,6 +2,7 @@
 (function(){
  	var listOfWords = [], //words returned from API
  	    currentWord = [], //word, array of letters
+ 	    answerWord = [], //holds the word for the solution
  	    displayWord = [], //word on the screen, X----x
  	    wordsPerGame = 5,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
@@ -15,13 +16,29 @@
  	    message = document.getElementById('message-area'),
  	    winMessage = document.getElementById('win-message'),
  	    wordContainer = document.getElementById("word"),
- 	     wordInput = document.getElementById('letter'),
- 	    guessedNum = 0; //number of correctly guessed words 
+ 	    guessedWords = document.getElementById("guessed-words"),
+ 	    guessedNumber = document.getElementById("guessed-number"),
+ 	    winWords = []; //an array to hold correctly guessed words
+ 	    guessedNum = 0, //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
         arrLetters = []; //an array to hold the letters already guessed;
 
  	window.onload = function(e){  //when page finishes loading
- 	   setRandomWords();
+ 	    getRandomWords().then(function(response){ 
+ 	       if(response){                          //response is returned from api
+ 	       	  listOfWords = response;
+ 	       	  answerWord = listOfWords[0];
+ 	          currentWord = listOfWords[0].split(""); // current word is array of letters
+ 	          displayCurrentWord();
+ 	       }
+ 	       else{
+ 	       	  alert("Please come back later!");  //if no response from api
+ 	       }
+ 	                  
+ 	     //  console.log("promise end",response);
+ 		}).catch(function(error){
+ 			console.log("There was an error in retrieving random words",error);
+ 		});
        
  	};
 
@@ -108,7 +125,10 @@
 				  console.log("Won");
 				  winMessage.innerHTML = "You won!";
 				  guessedNum++;
+				  winWords.push(answerWord);
 				  console.log("Number of guessed words:" + guessedNum);
+                  guessedNumber.innerHTML = "You got "+ guessedNum+ " words right";
+                  guessedWords.innerHTML = winWords.join(" ");
 				  resetWord();
 				  correct=0; //reset
 				}
@@ -179,6 +199,7 @@
 				//move to the next word to guess in the list	
 			    indexWordToGuess++;	
 			    currentWord = listOfWords[indexWordToGuess].split("");
+	    	   	answerWord = listOfWords[indexWordToGuess];
 	    	   	displayCurrentWord(); 
 	    	   	winMessage.innerHTML = "";
 	    	    //activate the letter input again
