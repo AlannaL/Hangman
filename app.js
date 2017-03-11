@@ -2,6 +2,7 @@
 (function(){
  	var listOfWords = [], //words returned from API
  	    currentWord = [], //word, array of letters
+ 	    answerWord = [], //holds the word for the solution
  	    displayWord = [], //word on the screen, X----x
  	    wordsPerGame = 5,//switch words per game to 5 instead of 10
  	    limbsArray = ['l1','l2','l3','l4','l5','l6','l7'],
@@ -16,13 +17,15 @@
  	    winMessage = document.getElementById('win-message'),
  	    wordContainer = document.getElementById("word"),
  	     wordInput = document.getElementById('letter'),
- 	    guessedNum = 0; //number of correctly guessed words 
+ 	    guessedWords = document.getElementById("guessed-words"),
+ 	    guessedNumber = document.getElementById("guessed-number"),
+ 	    winWords = []; //an array to hold correctly guessed words
+ 	    guessedNum = 0, //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
         arrLetters = []; //an array to hold the letters already guessed;
 
  	window.onload = function(e){  //when page finishes loading
- 	   setRandomWords();
-       
+ 	   setRandomWords();       
  	};
 
 	function getRandomWords(){
@@ -108,7 +111,10 @@
 				  console.log("Won");
 				  winMessage.innerHTML = "You won!";
 				  guessedNum++;
+				  winWords.push(answerWord);
 				  console.log("Number of guessed words:" + guessedNum);
+                  guessedNumber.innerHTML = "You got "+ guessedNum+ " words right";
+                  guessedWords.innerHTML = winWords.join(" ");
 				  resetWord();
 				  correct=0; //reset
 				}
@@ -116,10 +122,6 @@
            }
            
 		});
-
-
-
-
 
  		 	
        document.getElementById('letter').value ="";     //reset input value
@@ -134,8 +136,6 @@
         //if not end of game for everytime a key is pressed
         if(count < 8){
         	 wordContainer.innerHTML = displayWord.join(" ");    //update the displayed word
-
-
 
 	        if (arrLetters.indexOf(letter) != -1){        //if letter has already been guessed
 	            message.innerHTML = "That letter has already been guessed";
@@ -179,6 +179,7 @@
 				//move to the next word to guess in the list	
 			    indexWordToGuess++;	
 			    currentWord = listOfWords[indexWordToGuess].split("");
+	    	   	answerWord = listOfWords[indexWordToGuess];
 	    	   	displayCurrentWord(); 
 	    	   	winMessage.innerHTML = "";
 	    	    //activate the letter input again
