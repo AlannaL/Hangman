@@ -18,6 +18,7 @@
  	    wordContainer = document.getElementById("word"),
  	    guessedWords = document.getElementById("guessed-words"),
  	    guessedNumber = document.getElementById("guessed-number"),
+ 	    wordInput = document.getElementById("letter"),
  	    winWords = []; //an array to hold correctly guessed words
  	    guessedNum = 0, //number of correctly guessed words 
         guessedString = "",   //to display letters already guessed
