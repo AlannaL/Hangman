@@ -58,7 +58,7 @@
 		        }
 		    };
 
-		    xmlhttp.open("GET", "https://crossorigin.me/http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=noun&excludePartOfSpeech=noun-plural&minCorpusCount=10000&maxCorpusCount=20000&minDictionaryCount=0&maxDictionaryCount=-1&minLength=5&maxLength=7&limit="+wordsPerGame+"&api_key="+apiKey, true);
+		    xmlhttp.open("GET", "https://cors-anywhere.herokuapp.com/http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=noun&excludePartOfSpeech=noun-plural&minCorpusCount=10000&maxCorpusCount=20000&minDictionaryCount=0&maxDictionaryCount=-1&minLength=5&maxLength=7&limit="+wordsPerGame+"&api_key="+apiKey, true);
 		    xmlhttp.send();	
 		});		
 	}
