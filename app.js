@@ -117,8 +117,8 @@
 				  guessedNum++;
 				  winWords.push(answerWord);
 				  console.log("Number of guessed words:" + guessedNum);
-                  guessedNumber.innerHTML = "You got "+ guessedNum+ " words right";
-                  guessedWords.innerHTML = winWords.join(" ");
+                  guessedNumber.innerHTML = guessedNum;
+                  guessedWords.innerHTML = winWords.join(", ");
 				  resetWord();
 				  correct=0; //reset
 				}
