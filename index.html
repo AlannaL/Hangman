@@ -24,11 +24,19 @@ body{
   flex-direction: row;
    flex-wrap:wrap;
 }
-.drawing{
-  padding-top: 5%;
-	height: 500px;
-	width:40%;
-  min-width: 300px;
+.drawing{	
+ width: 35%;
+ height: 500px;
+ border-right: 4px solid black;
+ border-top: 4px solid black;
+ margin-left: 15%;
+}
+.drawing:before{
+  content:'';
+  display:inline-block;
+  width:10%;
+  height: 15%;
+  border-left:4px solid black;  
 }
 .score{
    display: flex;
@@ -45,19 +53,7 @@ body{
  #missed-words{
      word-wrap: break-word;
  }
-#bar{
- width: 50%;
- height:100%;
- border-right: 4px solid black;
- border-top: 4px solid black;
-}
-#bar:before{
-	content:'';
-	display:inline-block;
-	width:10%;
-    height: 15%;
-	border-left:4px solid black;
-}
+
 .show{
 	opacity: 1 !important;
 }
@@ -65,40 +61,40 @@ body{
 	opacity: 0 !important;	/*important is needed so that it overrides the initial oppacity value*/
 }
 #l1{
-      width: 20%;
+    width: 35%;
     height: 20%;
     border: 4px solid black;
-    position: absolute;
-    top: 15%;
-    left: -10%;
+    position: relative;
     border-radius: 50%;
     opacity: 0;
+    top: -2%;
+    left: -18%;
 }
 #l2{
   width: 4px;
   height: 17%;
-  position: absolute;
-  top: 36%;
+  position: relative;
   left: 0%;
   background: black;
   opacity: 0;
+  top: -2%;
 }
 #l3{
   width: 4px;
 height: 30%;
-position: absolute;
-top: 27%;
-left: -11%;
+position: relative;
 transform: rotate(-45deg);
 background: black;
 opacity: 0;
+top: -28%;
+left: -19%;
 }
 #l4{
   width: 4px;
 height: 30%;
-position: absolute;
-top: 27%;
-left: 11%;
+position: relative;
+top: -58%;
+left: 19%;
 transform: rotate(45deg);
 background: black;
 opacity: 0;
@@ -106,8 +102,8 @@ opacity: 0;
 #l5{
   width: 4px;
   height: 17%;
-  position: absolute;
-  top: 53%;
+  position: relative;
+  top: -62%;
   left: 0%;
   background: black;
   opacity: 0;
@@ -115,9 +111,9 @@ opacity: 0;
 #l6{
   width: 4px;
 height: 30%;
-position: absolute;
-top: 65%;
-left: -11%;
+position: relative;
+top: -67%;
+left: -19%;
 transform: rotate(-135deg);
 background: black;
 opacity: 0;
@@ -125,9 +121,9 @@ opacity: 0;
 #l7{
   width: 4px;
 height: 30%;
-position: absolute;
-top: 65%;
-left: 11%;
+position: relative;
+top: -97%;
+left: 18%;
 transform: rotate(135deg);
 background: black;
 opacity: 0;
@@ -140,10 +136,15 @@ opacity: 0;
   font-size: 40px;
   font-weight: bold;
   text-transform: uppercase;
+  letter-spacing: 8px;
 }
 input{
   height: 50px;
   width: 76%;
+}
+#guessed-letters{
+    font-size: 25px;
+    letter-spacing: 8px;
 }
 
     </style>
