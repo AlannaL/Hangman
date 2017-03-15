@@ -182,6 +182,7 @@ body {
 #guessed-letters {
     font-size: 25px;
     letter-spacing: 8px;
+    margin-top: 10%;
 }
 
 #newGame {
