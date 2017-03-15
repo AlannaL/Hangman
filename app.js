@@ -26,7 +26,7 @@
         guessedString = "", //to display letters already guessed
         LIMBS_COUNT = 8, // how many letters the user can guees wrong
         arrLetters = [], //an array to hold the letters already guessed;
-        hangman = document.getElementById('transform'); //hangman class, used for animation
+        hangman = document.getElementById('hangman'); //hangman id, used for animation
 
  	window.onload = function(e){  //when page finishes loading
  	   setRandomWords();       
@@ -158,9 +158,7 @@
             updateDisplayMissedWords();
             
             resetWord();
-            hangman.style.WebkitAnimation = "shake-top 1.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both"; 
-            hangman.style.MozAnimation ="shake-top 1.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both";
-            hangman.style.animation = "shake-top 1.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both";
+            hangman.className = "transform"; //animates hangman
             
         }
 
@@ -194,6 +192,7 @@
                 answerWord = listOfWords[indexWordToGuess];
                 displayCurrentWord();
                 message.innerHTML = "";
+                hangman.classList.remove("transform"); //remove animation class to reset it
                 //activate the letter input again
                 wordInput.readOnly = false;
             }, 2000);
@@ -242,9 +241,7 @@
         guessedWords.innerHTML = "";
         indexWordToGuess = 0;
         reinitializeValues();
-        hangman.style.WebkitAnimation = "intial";
-        hangman.style.MozAnimation = "initial";
-        hangman.style.animation = "initial";
+        hangman.classList.remove("transform"); //remove animation class to reset it
     }
 
     function updateDisplayMissedWords() {
