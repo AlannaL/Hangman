@@ -16,6 +16,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    background-color: #0b0b40;
     background-image:radial-gradient(circle at 39.82% 49.85%, #25174f, transparent 100%),radial-gradient(circle at 52.86% 50.31%, #1f5457, transparent 100%),radial-gradient(circle at 50% 50%, #1c143b, #1c143b 100%);
     color: white;
     overflow-y: hidden;
@@ -216,7 +217,7 @@ body {
     font-weight: bold;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 1050px) {
     body{
         overflow-y: auto;
     }
