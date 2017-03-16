@@ -18,7 +18,7 @@ body {
     flex-wrap: wrap;
     background-image:radial-gradient(circle at 39.82% 49.85%, #25174f, transparent 100%),radial-gradient(circle at 52.86% 50.31%, #1f5457, transparent 100%),radial-gradient(circle at 50% 50%, #1c143b, #1c143b 100%);
     color: white;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
     margin:0;
 }
@@ -216,11 +216,13 @@ body {
     font-weight: bold;
 }
 
-@media screen and (max-width: 420px) {
-    .drawing {
-        width: 279px;
-        margin-left: 25%;
-        margin-top: -52%;
-        margin-bottom: 13%;
+@media screen and (max-width: 850px) {
+    body{
+        overflow-y: auto;
+    }
+}
+@media screen and (max-height: 620px) {
+    body{
+        overflow-y: auto;
     }
 }

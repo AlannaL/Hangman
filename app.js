@@ -30,7 +30,9 @@
  	window.onload = function(e){  //when page finishes loading
  	   setRandomWords();       
  	};
-
+    window.onbeforeunload = function(e) {
+      startNewGame();
+    };
 	function getRandomWords(){
 		return new Promise(function(resolve, reject){
 		    //We call resolve(...) when what we were doing async succeeded, and reject(...) when it failed.
@@ -238,6 +240,7 @@
         guessedNumber.innerHTML = "";
         guessedWords.innerHTML = "";
         indexWordToGuess = 0;
+        wordInput.value ="";
         reinitializeValues();
     }
 
