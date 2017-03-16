@@ -205,9 +205,13 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
+                        wordInput.readOnly = false;
+                        wordInput.style = "background-color:white";
                         startNewGame();
                         newGameButton.style = "visibility: hidden";
                     } else {
+                        wordInput.readOnly = true;
+                        wordInput.style = "background-color:gray";
                         newGameButton.style = "visibility:visible";
                     }
 
