@@ -166,6 +166,9 @@ body {
 #newGame {
     visibility: hidden;
 }
+#newGame:hover{
+   background-color: greenyellow;
+}
 
 #word {
     font-size: 40px;
