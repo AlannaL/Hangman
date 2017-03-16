@@ -22,73 +22,72 @@
         missedNumberDisplay = document.getElementById("missed-number"),
         newGameButton = document.getElementById("newGame"),
         winWords = []; //an array to hold correctly guessed words
-   		guessedNum = 0, //number of correctly guessed words 
+    guessedNum = 0, //number of correctly guessed words 
         guessedString = "", //to display letters already guessed
         LIMBS_COUNT = 8, // how many letters the user can guees wrong
         arrLetters = []; //an array to hold the letters already guessed;
 
- 	window.onload = function(e){  //when page finishes loading
- 	   setRandomWords();       
- 	};
+    window.onload = function(e) { //when page finishes loading
+        setRandomWords();
+    };
 
-	function getRandomWords(){
-		return new Promise(function(resolve, reject){
-		    //We call resolve(...) when what we were doing async succeeded, and reject(...) when it failed.
-		    //In this example, we use setTimeout(...) to simulate async code. 
-		    //In reality, you will probabally using something like XHR or an HTML5 API.
-		    var listOfWords = [];
+    function getRandomWords() {
+        return new Promise(function(resolve, reject) {
+            //We call resolve(...) when what we were doing async succeeded, and reject(...) when it failed.
+            //In this example, we use setTimeout(...) to simulate async code. 
+            //In reality, you will probabally using something like XHR or an HTML5 API.
+            var listOfWords = [];
 
-			 var xmlhttp = new XMLHttpRequest();
+            var xmlhttp = new XMLHttpRequest();
 
-		    xmlhttp.onreadystatechange = function() {   // ths makes a call to the api
-		        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
-		           if (xmlhttp.status == 200) {
-		              listOfWords = JSON.parse(xmlhttp.responseText).map(function(word){return word.word});
-		              resolve(listOfWords)
-		           }
-		           else if (xmlhttp.status == 400) {
-		              console.log('There was an error 400');
-		              reject("no response");
-		           }
-		           else {
-		           	  console.log('something else other than 200 was returned');
-		           	  reject("no response");
-		             
-		           }
-		        }
-		    };
+            xmlhttp.onreadystatechange = function() { // ths makes a call to the api
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {
+                    if (xmlhttp.status == 200) {
+                        listOfWords = JSON.parse(xmlhttp.responseText).map(function(word) {
+                            return word.word });
+                        resolve(listOfWords)
+                    } else if (xmlhttp.status == 400) {
+                        console.log('There was an error 400');
+                        reject("no response");
+                    } else {
+                        console.log('something else other than 200 was returned');
+                        reject("no response");
 
-		    xmlhttp.open("GET", "https://cors-anywhere.herokuapp.com/http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=noun&excludePartOfSpeech=noun-plural&minCorpusCount=10000&maxCorpusCount=20000&minDictionaryCount=0&maxDictionaryCount=-1&minLength=5&maxLength=7&limit="+wordsPerGame+"&api_key="+apiKey, true);
-		    xmlhttp.send();	
-		});		
-	}
-	function setRandomWords(){
-		 getRandomWords().then(function(response){ 
-	 	       if(response){                          //response is returned from api
-	 	       	  listOfWords = response;
-	 	       	  answerWord = listOfWords[0];
-	 	          currentWord = listOfWords[0].split(""); // current word is array of letters
-	 	          displayCurrentWord();
-	 	       }
-	 	       else{
-	 	       	  alert("Please come back later!");  //if no response from api
-	 	       }
-	 	                  
-	 	     //  console.log("promise end",response);
-	 		}).catch(function(error){
-	 			console.log("There was an error in retrieving random words",error);
-	 		});
-	}
+                    }
+                }
+            };
 
-	function displayCurrentWord(){
-		var dashes = Array.apply(null, { length: currentWord.length-2 }) ;
-		var addDashes = dashes.map(function(dash){
-           return "_";
-		});
-		 displayWord = []; //resets word to display before adding new word to guess
-         displayWord.push(currentWord[0]);
-         displayWord = displayWord.concat(addDashes);
-         displayWord.push(currentWord[currentWord.length-1]);
+            xmlhttp.open("GET", "https://cors-anywhere.herokuapp.com/http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=noun&excludePartOfSpeech=noun-plural&minCorpusCount=10000&maxCorpusCount=20000&minDictionaryCount=0&maxDictionaryCount=-1&minLength=5&maxLength=7&limit=" + wordsPerGame + "&api_key=" + apiKey, true);
+            xmlhttp.send();
+        });
+    }
+
+    function setRandomWords() {
+        getRandomWords().then(function(response) {
+            if (response) { //response is returned from api
+                listOfWords = response;
+                answerWord = listOfWords[0];
+                currentWord = listOfWords[0].split(""); // current word is array of letters
+                displayCurrentWord();
+            } else {
+                alert("Please come back later!"); //if no response from api
+            }
+
+            //  console.log("promise end",response);
+        }).catch(function(error) {
+            console.log("There was an error in retrieving random words", error);
+        });
+    }
+
+    function displayCurrentWord() {
+        var dashes = Array.apply(null, { length: currentWord.length - 2 });
+        var addDashes = dashes.map(function(dash) {
+            return "_";
+        });
+        displayWord = []; //resets word to display before adding new word to guess
+        displayWord.push(currentWord[0]);
+        displayWord = displayWord.concat(addDashes);
+        displayWord.push(currentWord[currentWord.length - 1]);
         console.log(currentWord);
         wordContainer.innerHTML = displayWord.join(" ");
 
@@ -99,64 +98,71 @@
     wordInput.onkeyup = function() {
         var letter = wordInput.value;
         console.log(letter);
+        //test if input is letter and not number or other characters like ponctuation sign
+        if (letter.match("[a-zA-Z]")) {
+            wordInput.style = "color:black";
+            var found = false;
+            currentWord.forEach(function(character, index) {
+                if (index !== 0 && index !== (currentWord.length - 1) &&
+                    character.toLowerCase() === letter.toLowerCase()) { //for correctly guessed letter
+                    displayWord[index] = letter; //add guessed letter in word to display
+                    currentWord[index] = "-1"; // remove guessed letter from the initial word to guess
+                    correct++; //number of correct letters guessed
+                    found = true; //letter was correctly guessed
+                    console.log(currentWord); //displays solution for testing purposes
+                    console.log("Number of correct letters guessed:" + correct);
 
-        var found = false;
-        currentWord.forEach(function(character, index) {
-            if (index !== 0 && index !== (currentWord.length - 1) &&
-                character.toLowerCase() === letter.toLowerCase()) { //for correctly guessed letter
-                displayWord[index] = letter; //add guessed letter in word to display
-                currentWord[index] = "-1"; // remove guessed letter from the initial word to guess
-                correct++; //number of correct letters guessed
-                found = true; //letter was correctly guessed
-                console.log(currentWord); //displays solution for testing purposes
-                console.log("Number of correct letters guessed:" + correct);
+                    if (correct == currentWord.length - 2) { //the win condition, number of correct letters = # of dashes
+                        console.log("Won");
+                        message.innerHTML = "You won!";
+                        guessedNum++;
+                        winWords.push(answerWord);
+                        console.log("Number of guessed words:" + guessedNum);
+                        guessedNumber.innerHTML = guessedNum;
+                        guessedWords.innerHTML = winWords.join(", ");
+                        resetWord();
+                        correct = 0; //reset
+                    }
 
-                if (correct == currentWord.length - 2) { //the win condition, number of correct letters = # of dashes
-                    console.log("Won");
-                    message.innerHTML = "You won!";
-                    guessedNum++;
-                    winWords.push(answerWord);
-                    console.log("Number of guessed words:" + guessedNum);
-                    guessedNumber.innerHTML = guessedNum;
-                    guessedWords.innerHTML = winWords.join(", ");
-                    resetWord();
-                    correct = 0; //reset
                 }
 
+            });
+
+
+            wordInput.value = ""; //reset input value
+
+            //for not correct guess
+            if (count < 8 && arrLetters.indexOf(letter) < 0 && !found) { //if there are still limbs to display and the letter hasn't already been guessed and is false
+                displayLimb(count);
+                count++;
+
             }
 
-        });
+            //if not end of game for everytime a key is pressed
+            if (count < LIMBS_COUNT) {
+                wordContainer.innerHTML = displayWord.join(" "); //update the displayed word
 
-
-        wordInput.value = ""; //reset input value
-
-        //for not correct guess
-        if (count < 8 && arrLetters.indexOf(letter) < 0 && !found) { //if there are still limbs to display and the letter hasn't already been guessed and is false
-            displayLimb(count);
-            count++;
-
-        }
-
-        //if not end of game for everytime a key is pressed
-        if (count < LIMBS_COUNT) {
-            wordContainer.innerHTML = displayWord.join(" "); //update the displayed word
-
-            if (arrLetters.indexOf(letter) != -1) { //if letter has already been guessed
-                message.innerHTML = "That letter has already been guessed";
-            } else { // if a new letter
-                guessedString = guessedString.concat(letter + " ");
-                guessed.innerHTML = guessedString; //display the guessed letter
-                arrLetters.push(letter);
-                console.log(arrLetters);
-                message.innerHTML = "";
+                if (arrLetters.indexOf(letter) != -1) { //if letter has already been guessed
+                    message.innerHTML = "That letter has already been guessed";
+                } else { // if a new letter
+                    guessedString = guessedString.concat(letter + " ");
+                    guessed.innerHTML = guessedString; //display the guessed letter
+                    arrLetters.push(letter);
+                    console.log(arrLetters);
+                    message.innerHTML = "";
+                }
+            } else if (!wordInput.readOnly) { // if the user has already missed 7 times 
+                //counting the missed words and adding their value in an array to display them
+                countMissedWords++;
+                missedWords.push(listOfWords[indexWordToGuess]);
+                updateDisplayMissedWords();
+                resetWord();
             }
-        } else if (!wordInput.readOnly) { // if the user has already missed 7 times 
-            //counting the missed words and adding their value in an array to display them
-            countMissedWords++;
-            missedWords.push(listOfWords[indexWordToGuess]);
-            updateDisplayMissedWords();
-            resetWord();
+        }else{
+            console.log("Not a letter",letter);
+            wordInput.style = "color:red";
         }
+
 
     }
 
@@ -181,7 +187,7 @@
             //wait two seconds before moving to the next word in the list
             setTimeout(function() {
                 reinitializeValues();
-                //move to the next word to guess in the list	
+                //move to the next word to guess in the list    
                 indexWordToGuess++;
                 currentWord = listOfWords[indexWordToGuess].split("");
                 answerWord = listOfWords[indexWordToGuess];
@@ -247,7 +253,7 @@
         hideLimbs();
         //reset count of guessed letters
         correct = 0;
-        //resets count of missed letters	
+        //resets count of missed letters    
         count = 1;
         //reset guesses and message display 
         guessedString = "";
