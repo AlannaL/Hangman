@@ -207,8 +207,7 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
-                        wordInput.readOnly = false;
-                        wordInput.style = "background-color:white";
+                        
                         startNewGame();
                         newGameButton.style = "visibility: hidden";
                     } else {
@@ -226,6 +225,8 @@
 
     function startNewGame() {
         newGameButton.style = "visibility: hidden";
+        wordInput.readOnly = false;
+        wordInput.style = "background-color:white";
         reinitializeNewGame();
         setRandomWords();
     }
