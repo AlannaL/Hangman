@@ -29,6 +29,8 @@ body {
     border-right: 4px solid rgba(255, 255, 255, 0.39);
     border-top: 4px solid rgba(255, 255, 255, 0.39);
     margin-left: 11%;
+    margin-top: 8%;
+    margin-bottom: 30px;
 }
 
 .drawing:before {
