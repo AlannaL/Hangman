@@ -30,7 +30,9 @@
  	window.onload = function(e){  //when page finishes loading
  	   setRandomWords();       
  	};
-
+    window.onbeforeunload = function(e) {
+      startNewGame();
+    };
 	function getRandomWords(){
 		return new Promise(function(resolve, reject){
 		    //We call resolve(...) when what we were doing async succeeded, and reject(...) when it failed.
@@ -205,9 +207,12 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
+                        
                         startNewGame();
                         newGameButton.style = "visibility: hidden";
                     } else {
+                        wordInput.readOnly = true;
+                        wordInput.style = "background-color:gray";
                         newGameButton.style = "visibility:visible";
                     }
 
@@ -220,6 +225,8 @@
 
     function startNewGame() {
         newGameButton.style = "visibility: hidden";
+        wordInput.readOnly = false;
+        wordInput.style = "background-color:white";
         reinitializeNewGame();
         setRandomWords();
     }
@@ -234,6 +241,7 @@
         guessedNumber.innerHTML = "";
         guessedWords.innerHTML = "";
         indexWordToGuess = 0;
+        wordInput.value ="";
         reinitializeValues();
     }
 
