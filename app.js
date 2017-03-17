@@ -26,7 +26,6 @@
         guessedString = "", //to display letters already guessed
         LIMBS_COUNT = 8, // how many letters the user can guees wrong
         arrLetters = []; //an array to hold the letters already guessed;
-
     window.onload = function(e) { //when page finishes loading
         setRandomWords();
     };
@@ -44,7 +43,8 @@
                 if (xmlhttp.readyState == XMLHttpRequest.DONE) {
                     if (xmlhttp.status == 200) {
                         listOfWords = JSON.parse(xmlhttp.responseText).map(function(word) {
-                            return word.word });
+                            return word.word
+                        });
                         resolve(listOfWords)
                     } else if (xmlhttp.status == 400) {
                         console.log('There was an error 400');
@@ -158,8 +158,8 @@
                 updateDisplayMissedWords();
                 resetWord();
             }
-        }else{
-            console.log("Not a letter",letter);
+        } else {
+            console.log("Not a letter", letter);
             wordInput.style = "color:red";
         }
 
@@ -211,9 +211,12 @@
                 },
                 function(isConfirm) {
                     if (isConfirm) {
+
                         startNewGame();
                         newGameButton.style = "visibility: hidden";
                     } else {
+                        wordInput.readOnly = true;
+                        wordInput.style = "background-color:gray";
                         newGameButton.style = "visibility:visible";
                     }
 
@@ -226,6 +229,8 @@
 
     function startNewGame() {
         newGameButton.style = "visibility: hidden";
+        wordInput.readOnly = false;
+        wordInput.style = "background-color:white";
         reinitializeNewGame();
         setRandomWords();
     }
@@ -240,6 +245,7 @@
         guessedNumber.innerHTML = "";
         guessedWords.innerHTML = "";
         indexWordToGuess = 0;
+        wordInput.value = "";
         reinitializeValues();
     }
 
