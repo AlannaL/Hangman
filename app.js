@@ -27,6 +27,7 @@
         LIMBS_COUNT = 8, // how many letters the user can guees wrong
         arrLetters = [], //an array to hold the letters already guessed;
         hangman = document.getElementById('hangman'); //hangman id, used for animation
+        star = document.getElementById('star'); //star id, used for animation
 
  	window.onload = function(e){  //when page finishes loading
  	   setRandomWords();       
@@ -113,6 +114,7 @@
                 console.log("Number of correct letters guessed:" + correct);
 
                 if (correct == currentWord.length - 2) { //the win condition, number of correct letters = # of dashes
+                    star.className = "transform2 star-five"; //animates star
                     console.log("Won");
                     message.innerHTML = "You won!";
                     guessedNum++;
@@ -193,6 +195,8 @@
                 displayCurrentWord();
                 message.innerHTML = "";
                 hangman.classList.remove("transform"); //remove animation class to reset it
+                star.classList.remove("star-five");//remove star to reset it
+                star.classList.remove("transform2");//reset rotation of star
                 //activate the letter input again
                 wordInput.readOnly = false;
             }, 2000);
