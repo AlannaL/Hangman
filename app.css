@@ -222,23 +222,23 @@ body {
 }
   
 .transform{   
-   -webkit-animation: swinging 2.2s 1 both;
-   -moz-animation: swinging 2.2s 1 both;
-   animation: swinging 2.2s 1 both;
+   -webkit-animation: swinging 2.4s 1 both;
+   -moz-animation: swinging 2.4s 1 both;
+   animation: swinging 2.4s 1 both;
   } 
 
 @-webkit-keyframes swinging{
   0%{-webkit-transform: rotateX(0deg); transform-origin: top;}
-  25%{-webkit-transform: rotateX(-20deg); transform-origin: top;}
-  75%{-webkit-transform: rotateX(20deg); transform-origin: top;}
-  100%{-webkit-transform: rotateX(0deg); transform-origin: top;}
+  20%{-webkit-transform: rotateX(-20deg); transform-origin: top;}
+  60%{-webkit-transform: rotateX(20deg); transform-origin: top;}
+  100%{-webkit-transform: rotateX(-20deg); transform-origin: top;}
 }
 
 @keyframes swinging{
   0%{transform: rotateX(0deg); transform-origin: top;}
-  25%{transform: rotateX(-20deg); transform-origin: top;}
-  75%{transform: rotateX(20deg); transform-origin: top;}
-  100%{transform: rotateX(0deg); transform-origin: top;}
+  20%{transform: rotateX(-20deg); transform-origin: top;}
+  60%{transform: rotateX(20deg); transform-origin: top;}
+  100%{transform: rotateX(-20deg); transform-origin: top;}
 }
 }
 
