@@ -27,7 +27,7 @@ body {
     border-right: 4px solid rgba(255, 255, 255, 0.39);
     border-top: 4px solid rgba(255, 255, 255, 0.39);
     margin-left: 11%;
-    perspective: 400px;
+    perspective: 800px;
 }
 
 .drawing:before {
@@ -231,14 +231,14 @@ body {
   0%{-webkit-transform: rotateX(0deg); transform-origin: top;}
   20%{-webkit-transform: rotateX(-20deg); transform-origin: top;}
   60%{-webkit-transform: rotateX(20deg); transform-origin: top;}
-  100%{-webkit-transform: rotateX(-20deg); transform-origin: top;}
+  100%{-webkit-transform: rotateX(0deg); transform-origin: top;}
 }
 
 @keyframes swinging{
   0%{transform: rotateX(0deg); transform-origin: top;}
   20%{transform: rotateX(-20deg); transform-origin: top;}
   60%{transform: rotateX(20deg); transform-origin: top;}
-  100%{transform: rotateX(-20deg); transform-origin: top;}
+  100%{transform: rotateX(0deg); transform-origin: top;}
 }
 }
 
