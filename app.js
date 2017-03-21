@@ -93,14 +93,26 @@
 
     }
 
-
+     wordInput.onkeydown = function() {
+         wordInput.value ="";
+     }
+     wordInput.onkeypress = function(event){
+         var charCode = event.keyCode;
+         //Non-numeric character range
+         if (charCode > 31 && (charCode < 48 || charCode > 57))
+        {
+            wordInput.style = "color:black";
+        }
+        else{
+            wordInput.style = "color:red";
+        }
+     }
     //For each letter entered
     wordInput.onkeyup = function() {
         var letter = wordInput.value;
         console.log(letter);
         //test if input is letter and not number or other characters like ponctuation sign
         if (letter.match("[a-zA-Z]")) {
-            wordInput.style = "color:black";
             var found = false;
             currentWord.forEach(function(character, index) {
                 if (index !== 0 && index !== (currentWord.length - 1) &&
@@ -160,7 +172,7 @@
             }
         } else {
             console.log("Not a letter", letter);
-            wordInput.style = "color:red";
+           // wordInput.style = "color:red";
         }
 
 
