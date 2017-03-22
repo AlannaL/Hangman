@@ -105,7 +105,7 @@
          //onkeypress="doKey(arguments[0] || window.event)"
          var charCode =window.event ? event.keyCode || event.charCode : event.which;
          //Non-numeric character range
-         if (charCode > 31 && (charCode < 48 || charCode > 57))
+         if ((charCode >= 65 && charCode <=90 )|| (charCode >= 97 && charCode <= 122))
         {
             wordInput.setAttribute("style", "color:black !important");
             //wordInput.style = "color:black !important";
