@@ -97,14 +97,17 @@
          wordInput.value ="";
      }
      wordInput.onkeypress = function(event){
-         var charCode = event.keyCode;
+         //onkeypress="doKey(arguments[0] || window.event)"
+         var charCode =window.event ? event.keyCode || event.charCode : event.which;
          //Non-numeric character range
          if (charCode > 31 && (charCode < 48 || charCode > 57))
         {
-            wordInput.style = "color:black";
+            wordInput.setAttribute("style", "color:black !important");
+            //wordInput.style = "color:black !important";
         }
         else{
-            wordInput.style = "color:red";
+             wordInput.setAttribute("style", "color:red !important");
+           // wordInput.style = "color:red !important";
         }
      }
     //For each letter entered
